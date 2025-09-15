@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  AfterLoad,
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Product {
@@ -26,6 +33,38 @@ export class Product {
   @Column('text')
   gender: string;
 
-  //   @Column('text', { array: true, default: [] })
-  //   tags: string[];
+  @Column('text', { array: true, default: [] })
+  tags: string[];
+
+  //Para saber si el titulo cambió y modificar el slug definimos una variable temporal
+  private tempTitle: string = '';
+
+  @AfterLoad()
+  checkTitlePost() {
+    if (this.title) {
+      this.tempTitle = this.title;
+    }
+  }
+
+  @BeforeInsert()
+  checkSlugInsert() {
+    if (!this.slug) {
+      this.slug = this.title;
+    }
+
+    this.slug = this.slug
+      .toLowerCase()
+      .replaceAll(' ', '_')
+      .replaceAll("'", '');
+  }
+
+  @BeforeUpdate()
+  checkSlugUpdate() {
+    if (!this.slug || this.tempTitle !== '') this.slug = this.title;
+
+    this.slug = this.slug
+      .toLowerCase()
+      .replaceAll(' ', '_')
+      .replaceAll("'", '');
+  }
 }
