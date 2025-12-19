@@ -1,4 +1,6 @@
+minimumReleaseAge: 1440
+
 onlyBuiltDependencies:
   - '@nestjs/core'
+  - bcrypt
   - unrs-resolver
-minimumReleaseAge: 1440

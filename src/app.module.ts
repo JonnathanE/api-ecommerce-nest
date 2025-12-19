@@ -5,14 +5,20 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
+import { EnvConfig } from './config/env.config';
 import { CommonModule } from './common/common.module';
 import { FilesModule } from './files/files.module';
 import { ProductsModule } from './products/products.module';
 import { SeedModule } from './seed/seed.module';
+import { AuthModule } from './auth/auth.module';
+import { JoiValidationSchema } from './config/joi.validation';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      load: [EnvConfig],
+      validationSchema: JoiValidationSchema,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -31,6 +37,7 @@ import { SeedModule } from './seed/seed.module';
     CommonModule,
     SeedModule,
     FilesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
