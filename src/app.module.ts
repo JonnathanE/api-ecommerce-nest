@@ -12,6 +12,7 @@ import { ProductsModule } from './products/products.module';
 import { SeedModule } from './seed/seed.module';
 import { AuthModule } from './auth/auth.module';
 import { JoiValidationSchema } from './config/joi.validation';
+import { MessagesWsModule } from './messages-ws/messages-ws.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { JoiValidationSchema } from './config/joi.validation';
     SeedModule,
     FilesModule,
     AuthModule,
+    MessagesWsModule,
   ],
   controllers: [],
   providers: [],
